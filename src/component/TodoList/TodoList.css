@@ -1,0 +1,12 @@
+.todo-list ul,
+li {
+  padding: 0;
+  margin: 0;
+  line-height: 30px;
+  font-size: 10px;
+  font-style: none;
+}
+
+.todo-list ul {
+  margin-top: 10px;
+}
