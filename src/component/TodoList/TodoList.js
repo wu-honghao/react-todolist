@@ -1,57 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TodoList.css";
+import TodoListItem from "./TodoListItem.js";
 
-class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: "", todoList: [] };
-    this.handleChange = this.handleChange.bind(this);
-    this.addTodoList = this.addTodoList.bind(this);
-    this.deleteTodoList = this.deleteTodoList.bind(this);
-  }
+function TodoList() {
+  const [value, setValue] = useState("");
+  const [todoList, setTodoList] = useState([]);
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
-  addTodoList(event) {
+  const addTodoList = (event) => {
     event.preventDefault();
-    if (this.state.value.trim() !== "") {
-      this.setState({ todoList: [...this.state.todoList, this.state.value] });
+    if (value.trim() !== "") {
+      setTodoList([...todoList, value]);
     }
-  }
+  };
 
-  deleteTodoList(index) {
-    this.state.todoList.splice(index, 1);
-    this.setState({
-      todoList: this.state.todoList,
-    });
-  }
+  const deleteTodoList = (index) => {
+    todoList.splice(index, 1);
+    setTodoList(todoList);
+  };
 
-  render() {
-    const todoListItems = this.state.todoList.map((todoItem, index) => (
-      <li key={todoItem.toString() + index}>
-        第{index}个事项是：{todoItem}
-        <button onClick={this.deleteTodoList.bind(this, index)}>删除</button>
-      </li>
-    ));
+  const todoListItems = todoList.map((todoItem, index) => (
+    <TodoListItem
+      todoItem={todoItem}
+      index={index}
+      deleteTodoList={deleteTodoList}
+    />
+  ));
 
-    return (
-      <div className="todo-list">
-        <form onSubmit={this.addTodoList}>
-          <input
-            value={this.state.value}
-            type="text"
-            onChange={this.handleChange}
-            placeholder="请输入代办事项"
-          />
-          <input type="submit" value="添加" />
-        </form>
+  return (
+    <div className="todo-list">
+      <form onSubmit={addTodoList}>
+        <input
+          value={value}
+          type="text"
+          onChange={handleChange}
+          placeholder="请输入代办事项"
+        />
+        <input type="submit" value="添加" />
+      </form>
 
-        <ul>{todoListItems}</ul>
-      </div>
-    );
-  }
+      <ul>{todoListItems}</ul>
+    </div>
+  );
 }
 
 export default TodoList;
