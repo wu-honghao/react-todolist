@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./TodoList.css";
 import TodoListItem from "./TodoListItem.js";
+import { v4 as uuidv4 } from "uuid";
 
 function TodoList() {
   const [value, setValue] = useState("");
@@ -12,18 +13,20 @@ function TodoList() {
 
   const addTodoList = (event) => {
     event.preventDefault();
+    let list = { value: value };
     if (value.trim() !== "") {
-      setTodoList([...todoList, value]);
+      list.id = uuidv4();
+      setTodoList([...todoList, list]);
     }
   };
 
   const deleteTodoList = (index) => {
-    todoList.splice(index, 1);
-    setTodoList(todoList);
+    setTodoList([...todoList.slice(0, index), ...todoList.slice(index + 1)]);
   };
 
   const todoListItems = todoList.map((todoItem, index) => (
     <TodoListItem
+      key={todoItem.id}
       todoItem={todoItem}
       index={index}
       deleteTodoList={deleteTodoList}
