@@ -1,6 +1,6 @@
 import React from "react";
 
-function TodoListItem(props) {
+const TodoListItem = (props:any) => {
   return (
     <li key={props.todoItem.id}>
       第{props.index}个事项是：{props.todoItem.value}
@@ -9,6 +9,6 @@ function TodoListItem(props) {
       </button>
     </li>
   );
-}
+};
 
 export default TodoListItem;
